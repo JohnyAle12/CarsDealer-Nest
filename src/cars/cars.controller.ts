@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, ParseUUIDPipe, Patch, Post, UsePipes, ValidationPipe } from '@nestjs/common';
 import { CarsService } from './cars.service';
 import { CreateCarDto } from './dto/create-car.dto';
+import { UpdateCarDto } from './dto/update-car.dto';
 
 @Controller('cars')
 // @UsePipes(ValidationPipe) // el UsePipes se puede usar a nivel de controlador y a nievel de metodo, como a nivel global, ver main.ts
@@ -33,17 +34,17 @@ export class CarsController {
 
     @Patch(':id')
     update(
-        @Body() car: any,
-        @Param('id', ParseIntPipe) id: number
+        @Body() updateCarDto: UpdateCarDto,
+        @Param('id', ParseUUIDPipe) id: string
     ){
-        return car
+        return this.carService.update(id, updateCarDto)
     }
 
     @Delete(':id')
     delete(
-        @Param('id', ParseIntPipe) id: number
+        @Param('id', ParseUUIDPipe) id: string
     ){
-        return true
+        return this.carService.delete(id)
     }
 
 }
