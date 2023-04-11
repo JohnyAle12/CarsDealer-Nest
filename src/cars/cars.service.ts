@@ -1,20 +1,22 @@
-import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { Car } from './interfaces/car.interface';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class CarsService {
-    private cars = [
+    private cars: Car[] = [
         {
-            id: 1,
+            id: uuidv4(),
             brand: 'Toyota',
             model: 'Corolla'
         },
         {
-            id: 2,
+            id: uuidv4(),
             brand: 'Honda',
             model: 'Civic'
         },
         {
-            id: 3,
+            id: uuidv4(),
             brand: 'Jeep',
             model: 'Cheroke'
         }
@@ -24,12 +26,11 @@ export class CarsService {
         return this.cars
     }
 
-    findById(id: number){
+    findById(id: string){
         const car = this.cars.find(car => car.id === id)
 
         if(!car){
             throw new NotFoundException(`Not Found Car ID ${id} Resource`)
-            // throw new HttpException('Not Found Car Resource', HttpStatus.NOT_FOUND);
         }
 
         return car
